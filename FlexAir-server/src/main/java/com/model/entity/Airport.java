@@ -27,4 +27,25 @@ public class Airport {
     public String getCountryCode() {
         return countryCode;
     }
+
+    public void setAirportName(String airportName) {
+        this.airportName = airportName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
+    }
+
+    @Override
+    public String toString() {
+        return "Airport[" +
+                "airportName='" + airportName + '\'' +
+                ", cityName='" + cityName + '\'' +
+                ", countryCode='" + countryCode + '\'' +
+                ']';
+    }
 }

@@ -8,9 +8,9 @@ import java.sql.Date;
 public class PassportData {
     @Id
     @Column(name="passportid")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int passportId;
-    private boolean sex;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Integer passportId;
+    private Boolean sex;
     @Column(name="givenname")
     private String givenName;
     private String surname;
@@ -27,10 +27,10 @@ public class PassportData {
     public Date getDateOfBirth() {
         return dateOfBirth;
     }
-    public int getPassportId() {
+    public Integer getPassportId() {
         return passportId;
     }
-    public boolean getSex() {
+    public Boolean getSex() {
         return sex;
     }
 
@@ -60,5 +60,61 @@ public class PassportData {
 
     public String getAuthority() {
         return authority;
+    }
+
+    public void setPassportId(Integer passportId) {
+        this.passportId = passportId;
+    }
+
+    public void setSex(Boolean sex) {
+        this.sex = sex;
+    }
+
+    public void setGivenName(String givenName) {
+        this.givenName = givenName;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public void setDateOfIssue(Date dateOfIssue) {
+        this.dateOfIssue = dateOfIssue;
+    }
+
+    public void setDateOfExpery(Date dateOfExpery) {
+        this.dateOfExpery = dateOfExpery;
+    }
+
+    public void setIdNumber(String idNumber) {
+        this.idNumber = idNumber;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public void setAuthority(String authority) {
+        this.authority = authority;
+    }
+
+    @Override
+    public String toString() {
+        return "PassportData[" +
+                "passportId=" + passportId +
+                ", sex=" + sex +
+                ", givenName='" + givenName + '\'' +
+                ", surname='" + surname + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", dateOfIssue=" + dateOfIssue +
+                ", dateOfExpery=" + dateOfExpery +
+                ", idNumber='" + idNumber + '\'' +
+                ", country='" + country + '\'' +
+                ", authority='" + authority + '\'' +
+                ']';
     }
 }

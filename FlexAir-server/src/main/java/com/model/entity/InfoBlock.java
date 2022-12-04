@@ -7,12 +7,12 @@ import javax.persistence.*;
 public class InfoBlock {
     @Id
     @Column(name="infoblockid")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int infoBlockID;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Integer infoBlockID;
     private String header;
     private String main;
 
-    public int getInfoBlockID() {
+    public Integer getInfoBlockID() {
         return infoBlockID;
     }
 
@@ -22,5 +22,26 @@ public class InfoBlock {
 
     public String getMain() {
         return main;
+    }
+
+    public void setInfoBlockID(Integer infoBlockID) {
+        this.infoBlockID = infoBlockID;
+    }
+
+    public void setHeader(String header) {
+        this.header = header;
+    }
+
+    public void setMain(String main) {
+        this.main = main;
+    }
+
+    @Override
+    public String toString() {
+        return "InfoBlock[" +
+                "infoBlockID=" + infoBlockID +
+                ", header='" + header + '\'' +
+                ", main='" + main + '\'' +
+                ']';
     }
 }

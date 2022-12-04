@@ -8,8 +8,8 @@ import java.sql.Timestamp;
 public class Flight {
     @Id
     @Column(name="flightid")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int flightID;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Integer flightID;
     @Column(name="arrivaltime")
     private Timestamp arrivalTime;
     @Column(name="departuretime")
@@ -21,7 +21,7 @@ public class Flight {
     @JoinColumn(name="trackid")
     private Track track;
 
-    public int getFlightID() {
+    public Integer getFlightID() {
         return flightID;
     }
 
@@ -39,5 +39,36 @@ public class Flight {
 
     public Track getTrack() {
         return track;
+    }
+
+    public void setFlightID(Integer flightID) {
+        this.flightID = flightID;
+    }
+
+    public void setArrivalTime(Timestamp arrivalTime) {
+        this.arrivalTime = arrivalTime;
+    }
+
+    public void setDepartureTime(Timestamp departureTime) {
+        this.departureTime = departureTime;
+    }
+
+    public void setSeatSuite(SeatSuite seatSuite) {
+        this.seatSuite = seatSuite;
+    }
+
+    public void setTrack(Track track) {
+        this.track = track;
+    }
+
+    @Override
+    public String toString() {
+        return "Flight[" +
+                "flightID=" + flightID +
+                ", arrivalTime=" + arrivalTime +
+                ", departureTime=" + departureTime +
+                ", seatSuite=" + seatSuite +
+                ", track=" + track +
+                ']';
     }
 }

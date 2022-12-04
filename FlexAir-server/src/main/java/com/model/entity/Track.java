@@ -7,8 +7,8 @@ import javax.persistence.*;
 public class Track {
     @Id
     @Column(name="trackid")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int trackID;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Integer trackID;
     @ManyToOne
     @JoinColumn(name="startairport", referencedColumnName="airportname")
     private Airport startAirport;
@@ -16,9 +16,9 @@ public class Track {
     @JoinColumn(name="endairport", referencedColumnName="airportname")
     private Airport endAirport;
     @Column(name="isinwheel")
-    private boolean IsInWheel;
+    private Boolean IsInWheel;
 
-    public int getTrackID() {
+    public Integer getTrackID() {
         return trackID;
     }
 
@@ -30,7 +30,33 @@ public class Track {
         return endAirport;
     }
 
-    public boolean getIsInWheel() {
+    public Boolean getIsInWheel() {
         return IsInWheel;
+    }
+
+    public void setTrackID(Integer trackID) {
+        this.trackID = trackID;
+    }
+
+    public void setStartAirport(Airport startAirport) {
+        this.startAirport = startAirport;
+    }
+
+    public void setEndAirport(Airport endAirport) {
+        this.endAirport = endAirport;
+    }
+
+    public void setInWheel(Boolean inWheel) {
+        IsInWheel = inWheel;
+    }
+
+    @Override
+    public String toString() {
+        return "Track[" +
+                "trackID=" + trackID +
+                ", startAirport=" + startAirport +
+                ", endAirport=" + endAirport +
+                ", IsInWheel=" + IsInWheel +
+                ']';
     }
 }

@@ -7,46 +7,87 @@ import javax.persistence.*;
 public class SeatSuite {
     @Id
     @Column(name="seatsuiteid")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int seatSuiteID;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Integer seatSuiteID;
     @Column(name="economytotal")
-    private int economyTotal;
+    private Integer economyTotal;
     @Column(name="firstclasstotal")
-    private int firstClassTotal;
+    private Integer firstClassTotal;
     @Column(name="luxtotal")
-    private int luxTotal;
+    private Integer luxTotal;
     @Column(name="economyreserved")
-    private int economyReserved;
+    private Integer economyReserved;
     @Column(name="firstclassreserved")
-    private int firstClassReserved;
+    private Integer firstClassReserved;
     @Column(name="luxreserved")
-    private int luxReserved;
+    private Integer luxReserved;
 
-    public int getSeatSuiteID() {
+    public Integer getSeatSuiteID() {
         return seatSuiteID;
     }
 
-    public int getEconomyTotal() {
+    public Integer getEconomyTotal() {
         return economyTotal;
     }
 
-    public int getFirstClassTotal() {
+    public Integer getFirstClassTotal() {
         return firstClassTotal;
     }
 
-    public int getLuxTotal() {
+    public Integer getLuxTotal() {
         return luxTotal;
     }
 
-    public int getEconomyReserved() {
+    public Integer getEconomyReserved() {
         return economyReserved;
     }
 
-    public int getFirstClassReserved() {
+    public Integer getFirstClassReserved() {
         return firstClassReserved;
     }
 
-    public int getLuxReserved() {
+    public Integer getLuxReserved() {
         return luxReserved;
+    }
+
+    public void setSeatSuiteID(Integer seatSuiteID) {
+        this.seatSuiteID = seatSuiteID;
+    }
+
+    public void setEconomyTotal(Integer economyTotal) {
+        this.economyTotal = economyTotal;
+    }
+
+    public void setFirstClassTotal(Integer firstClassTotal) {
+        this.firstClassTotal = firstClassTotal;
+    }
+
+    public void setLuxTotal(Integer luxTotal) {
+        this.luxTotal = luxTotal;
+    }
+
+    public void setEconomyReserved(Integer economyReserved) {
+        this.economyReserved = economyReserved;
+    }
+
+    public void setFirstClassReserved(Integer firstClassReserved) {
+        this.firstClassReserved = firstClassReserved;
+    }
+
+    public void setLuxReserved(Integer luxReserved) {
+        this.luxReserved = luxReserved;
+    }
+
+    @Override
+    public String toString() {
+        return "SeatSuite[" +
+                "seatSuiteID=" + seatSuiteID +
+                ", economyTotal=" + economyTotal +
+                ", firstClassTotal=" + firstClassTotal +
+                ", luxTotal=" + luxTotal +
+                ", economyReserved=" + economyReserved +
+                ", firstClassReserved=" + firstClassReserved +
+                ", luxReserved=" + luxReserved +
+                ']';
     }
 }

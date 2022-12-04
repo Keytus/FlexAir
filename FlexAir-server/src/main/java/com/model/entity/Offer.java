@@ -7,8 +7,8 @@ import javax.persistence.*;
 public class Offer {
     @Id
     @Column(name="offerid")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int offerID;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Integer offerID;
     @ManyToOne
     @JoinColumn(name = "infoblockid")
     private InfoBlock infoBlock;
@@ -24,7 +24,28 @@ public class Offer {
         return promocode;
     }
 
-    public int getOfferID() {
+    public Integer getOfferID() {
         return offerID;
+    }
+
+    public void setOfferID(Integer offerID) {
+        this.offerID = offerID;
+    }
+
+    public void setInfoBlock(InfoBlock infoBlock) {
+        this.infoBlock = infoBlock;
+    }
+
+    public void setPromocode(Promocode promocode) {
+        this.promocode = promocode;
+    }
+
+    @Override
+    public String toString() {
+        return "Offer[" +
+                "offerID=" + offerID +
+                ", infoBlock=" + infoBlock +
+                ", promocode=" + promocode +
+                ']';
     }
 }
