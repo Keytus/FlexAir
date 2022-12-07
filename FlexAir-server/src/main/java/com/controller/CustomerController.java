@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.model.Message;
 import com.model.entity.Customer;
 import com.service.CustomerService;
 import org.springframework.http.HttpStatus;
@@ -23,31 +24,31 @@ public class CustomerController {
         return customerService.getCustomers();
     }
     @GetMapping("/is_exist")
-    public ResponseEntity<?> isCustomerExist(@RequestParam String login){
+    public ResponseEntity<Message> isCustomerExist(@RequestParam String login){
         if (customerService.isCustomerExist(login)){
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(new Message("success"),HttpStatus.OK);
         }
         else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new Message("fail"),HttpStatus.NOT_FOUND);
         }
     }
     @GetMapping("/login")
-    public ResponseEntity<?> loginCustomer(@RequestParam String login, @RequestParam String password){
+    public ResponseEntity<Message> loginCustomer(@RequestParam String login, @RequestParam String password){
         if (customerService.isCustomerExist(login)){
             if (customerService.checkPassword(login, password)){
-                return new ResponseEntity<>(HttpStatus.OK);
+                return new ResponseEntity<>(new Message("success"), HttpStatus.OK);
             }
             else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(new Message("fail"),HttpStatus.NOT_FOUND);
             }
         }
         else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new Message("fail"),HttpStatus.NOT_FOUND);
         }
     }
     @PostMapping("/sing_up")
-    public ResponseEntity<?> createCustomer(@RequestBody Customer customer){
+    public ResponseEntity<Message> createCustomer(@RequestBody Customer customer){
         customerService.createCustomer(customer);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(new Message("success"), HttpStatus.OK);
     }
 }
