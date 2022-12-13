@@ -9,4 +9,6 @@ public interface CustomerService {
     public boolean checkPassword(String login, String password);
     public List<Customer> getCustomers();
     public Customer createCustomer(Customer customer);
+    public Customer getCustomerByID(Integer id);
+    public Integer getCustomerIDByLogin(String login);
 }

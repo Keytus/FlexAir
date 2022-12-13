@@ -23,32 +23,36 @@ public class CustomerController {
     public List<Customer> getCustomers(){
         return customerService.getCustomers();
     }
+    @GetMapping("/{id}")
+    public Customer getCustomerByID(@PathVariable Integer id){
+        return customerService.getCustomerByID(id);
+    }
     @GetMapping("/is_exist")
     public ResponseEntity<Message> isCustomerExist(@RequestParam String login){
         if (customerService.isCustomerExist(login)){
-            return new ResponseEntity<>(new Message("success"),HttpStatus.OK);
+            return new ResponseEntity<>(new Message("success", null),HttpStatus.OK);
         }
         else {
-            return new ResponseEntity<>(new Message("fail"),HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new Message("fail", null),HttpStatus.NOT_FOUND);
         }
     }
     @GetMapping("/login")
     public ResponseEntity<Message> loginCustomer(@RequestParam String login, @RequestParam String password){
         if (customerService.isCustomerExist(login)){
             if (customerService.checkPassword(login, password)){
-                return new ResponseEntity<>(new Message("success"), HttpStatus.OK);
+                return new ResponseEntity<>(new Message("success", customerService.getCustomerIDByLogin(login)), HttpStatus.OK);
             }
             else {
-                return new ResponseEntity<>(new Message("fail"),HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(new Message("fail", null),HttpStatus.NOT_FOUND);
             }
         }
         else {
-            return new ResponseEntity<>(new Message("fail"),HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new Message("fail", null),HttpStatus.NOT_FOUND);
         }
     }
     @PostMapping("/sing_up")
     public ResponseEntity<Message> createCustomer(@RequestBody Customer customer){
-        customerService.createCustomer(customer);
-        return new ResponseEntity<>(new Message("success"), HttpStatus.OK);
+        Customer resultCustomer = customerService.createCustomer(customer);
+        return new ResponseEntity<>(new Message("success", resultCustomer.getCustomerID()), HttpStatus.OK);
     }
 }

@@ -4,6 +4,7 @@ import com.model.entity.Customer;
 import com.repository.CustomerRepository;
 import com.repository.PassportDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -43,5 +44,15 @@ public class CustomerServiceImpl implements CustomerService {
         }
 
         return customerRepository.save(customer);
+    }
+    @Override
+    public Customer getCustomerByID(Integer id) {
+        Customer customer = customerRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer not exist with id :" + id));
+        return customer;
+    }
+    @Override
+    public Integer getCustomerIDByLogin(String login){
+        return customerRepository.findByLogin(login).get(0).getCustomerID();
     }
 }
