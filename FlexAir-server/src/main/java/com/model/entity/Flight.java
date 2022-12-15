@@ -20,6 +20,12 @@ public class Flight {
     @ManyToOne
     @JoinColumn(name="trackid")
     private Track track;
+    @Column(name="economycost")
+    private Float economyCost;
+    @Column(name="firstclasscost")
+    private Float firstClassCost;
+    @Column(name="luxcost")
+    private Float luxCost;
 
     public Integer getFlightID() {
         return flightID;
@@ -61,6 +67,30 @@ public class Flight {
         this.track = track;
     }
 
+    public Float getEconomyCost() {
+        return economyCost;
+    }
+
+    public void setEconomyCost(Float economyCost) {
+        this.economyCost = economyCost;
+    }
+
+    public Float getFirstClassCost() {
+        return firstClassCost;
+    }
+
+    public void setFirstClassCost(Float firstClassCost) {
+        this.firstClassCost = firstClassCost;
+    }
+
+    public Float getLuxCost() {
+        return luxCost;
+    }
+
+    public void setLuxCost(Float luxCost) {
+        this.luxCost = luxCost;
+    }
+
     @Override
     public String toString() {
         return "Flight[" +
@@ -69,6 +99,9 @@ public class Flight {
                 ", departureTime=" + departureTime +
                 ", seatSuite=" + seatSuite +
                 ", track=" + track +
+                ", economyCost=" + economyCost +
+                ", firstClassCost=" + firstClassCost +
+                ", luxCost=" + luxCost +
                 ']';
     }
 }
