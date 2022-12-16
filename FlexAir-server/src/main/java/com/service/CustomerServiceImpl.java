@@ -4,11 +4,16 @@ import com.model.entity.Customer;
 import com.model.entity.PassportData;
 import com.repository.CustomerRepository;
 import com.repository.PassportDataRepository;
+import org.hibernate.cfg.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -19,6 +24,11 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
 
+    @Autowired
+    private JavaMailSender javaMailSender;
+
+    @Value("${spring.mail.username}")
+    private String sender;
 
     @Override
     public boolean isCustomerExist(String login) {
@@ -84,6 +94,41 @@ public class CustomerServiceImpl implements CustomerService {
         passportDataRepository.save(resultPassportData);
         customer.setPassportData(resultPassportData);
         customerRepository.save(customer);
+        return customer;
+    }
+
+    @Override
+    public Customer resetPassword(Integer id){
+        Customer customer = getCustomerByID(id);
+
+        if (customer.getEmail() == null){
+            throw new ResourceNotFoundException("Email is empty with customerID id : " + id);
+        }
+
+        int leftLimit = 65;
+        int rightLimit = 122;
+        int targetStringLength = 10;
+        Random random = new Random();
+        StringBuilder buffer;
+        buffer = new StringBuilder(targetStringLength);
+        for (int i = 0; i < targetStringLength; i++) {
+            int randomLimitedInt = leftLimit + (int)
+                    (random.nextFloat() * (rightLimit - leftLimit + 1));
+            buffer.append((char) randomLimitedInt);
+        }
+        String newPas = buffer.toString();
+
+        customer.setCustomerPassword(newPas);
+        customerRepository.save(customer);
+
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setFrom(sender);
+        mailMessage.setTo(customer.getEmail());
+        mailMessage.setSubject("Reset password");
+        mailMessage.setText("New password: " + newPas);
+
+        javaMailSender.send(mailMessage);
+
         return customer;
     }
 }
