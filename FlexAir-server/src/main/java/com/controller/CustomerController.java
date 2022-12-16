@@ -2,6 +2,7 @@ package com.controller;
 
 import com.model.Message;
 import com.model.entity.Customer;
+import com.model.entity.PassportData;
 import com.service.CustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,5 +55,15 @@ public class CustomerController {
     public ResponseEntity<Message> createCustomer(@RequestBody Customer customer){
         Customer resultCustomer = customerService.createCustomer(customer);
         return new ResponseEntity<>(new Message("success", resultCustomer.getCustomerID()), HttpStatus.OK);
+    }
+    @GetMapping("/{id}/passportData")
+    public PassportData getPassportDataByCustomerID(@PathVariable Integer id){
+        return customerService.getPassportDataByCustomerID(id);
+    }
+
+    @PutMapping("/{id}/passportData")
+    public ResponseEntity<Message> setPassportDataByCustomerID(@PathVariable Integer id, @RequestBody PassportData passportData){
+        Customer customer = customerService.setPassportDataByCustomerID(id, passportData);
+        return new ResponseEntity<>(new Message("success", customer.getCustomerID()), HttpStatus.OK);
     }
 }

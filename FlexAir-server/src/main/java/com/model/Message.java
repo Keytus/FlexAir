@@ -9,6 +9,9 @@ public class Message {
         this.id = id;
     }
 
+    public Message() {
+    }
+
     public String getStatus() {
         return status;
     }

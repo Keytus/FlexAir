@@ -1,6 +1,7 @@
 package com.service;
 
 import com.model.entity.Customer;
+import com.model.entity.PassportData;
 import com.repository.CustomerRepository;
 import com.repository.PassportDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,5 +55,35 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Integer getCustomerIDByLogin(String login){
         return customerRepository.findByLogin(login).get(0).getCustomerID();
+    }
+    @Override
+    public PassportData getPassportDataByCustomerID(Integer id){
+        PassportData passportData = getCustomerByID(id).getPassportData();
+        if (passportData == null){
+            throw new ResourceNotFoundException("PassportData is empty with customerID id : " + id);
+        }
+        else return passportData;
+    }
+    @Override
+    public Customer setPassportDataByCustomerID(Integer id, PassportData passportData){
+        Customer customer = getCustomerByID(id);
+        PassportData resultPassportData = customer.getPassportData();
+        if (resultPassportData == null){
+            resultPassportData = new PassportData();
+        }
+        resultPassportData.setDateOfIssue(passportData.getDateOfIssue());
+        resultPassportData.setDateOfExpery(passportData.getDateOfExpery());
+        resultPassportData.setSurname(passportData.getSurname());
+        resultPassportData.setGivenName(passportData.getGivenName());
+        resultPassportData.setDateOfBirth(passportData.getDateOfBirth());
+        resultPassportData.setCountry(passportData.getCountry());
+        resultPassportData.setSex(passportData.getSex());
+        resultPassportData.setAuthority(resultPassportData.getAuthority());
+        resultPassportData.setIdNumber(passportData.getIdNumber());
+
+        passportDataRepository.save(resultPassportData);
+        customer.setPassportData(resultPassportData);
+        customerRepository.save(customer);
+        return customer;
     }
 }
