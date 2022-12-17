@@ -38,8 +38,8 @@ public class CustomerController {
         }
     }
     @GetMapping("/is_exist")
-    public ResponseEntity<Message> isCustomerExist(@RequestParam String login){
-        if (customerService.isCustomerExist(login)){
+    public ResponseEntity<Message> isCustomerExistByLogin(@RequestParam String login){
+        if (customerService.isCustomerExistByLogin(login)){
             return new ResponseEntity<>(new Message("success", null),HttpStatus.OK);
         }
         else {
@@ -48,7 +48,7 @@ public class CustomerController {
     }
     @GetMapping("/login")
     public ResponseEntity<Message> loginCustomer(@RequestParam String login, @RequestParam String password){
-        if (customerService.isCustomerExist(login)){
+        if (customerService.isCustomerExistByLogin(login)){
             if (customerService.checkPassword(login, password)){
                 return new ResponseEntity<>(new Message("success", customerService.getCustomerIDByLogin(login)), HttpStatus.OK);
             }

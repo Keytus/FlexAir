@@ -6,7 +6,7 @@ import com.model.entity.PassportData;
 import java.util.List;
 
 public interface CustomerService {
-    public boolean isCustomerExist(String login);
+    public boolean isCustomerExistByLogin(String login);
     public boolean isCustomerExistByID(Integer id);
     public boolean checkPassword(String login, String password);
     public List<Customer> getCustomers();

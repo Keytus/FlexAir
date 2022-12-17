@@ -30,7 +30,7 @@ public class CustomerServiceImpl implements CustomerService {
     private String sender;
 
     @Override
-    public boolean isCustomerExist(String login) {
+    public boolean isCustomerExistByLogin(String login) {
         List<Customer> result = customerRepository.findByLogin(login);
         return !result.isEmpty();
     }

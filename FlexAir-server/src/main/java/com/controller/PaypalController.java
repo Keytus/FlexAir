@@ -32,19 +32,8 @@ public class PaypalController {
                     uri + SUCCESS_URL.substring(1));
             for(Links link:payment.getLinks()) {
                 if(link.getRel().equals("approval_url")) {
-//                    RestTemplate restTemplate = new RestTemplate();
-//
-//                    HttpHeaders headers = new HttpHeaders();
-//                    headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-//                    headers.add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36");
-//
-//                    HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
-//
-//                    ResponseEntity<?> result =
-//                            restTemplate.exchange(uri + CANCEL_URL, HttpMethod.GET, entity, Message.class);
 
                     return new ResponseEntity<>(new Message(link.getHref(), null), HttpStatus.OK);
-                    //return new RedirectView(link.getHref());
                 }
             }
         } catch (PayPalRESTException e) {
@@ -65,6 +54,8 @@ public class PaypalController {
             Payment payment = paypalService.executePayment(paymentId, payerId);
             System.out.println(payment.toJSON());
             if (payment.getState().equals("approved")) {
+                paypalService.createTicket(payment.getTransactions().get(0).getDescription(),
+                        payment.getTransactions().get(0).getAmount().getTotal());
                 return new ResponseEntity<>(new Message("success", null), HttpStatus.OK);
             }
         } catch (PayPalRESTException e) {
@@ -72,5 +63,16 @@ public class PaypalController {
         }
         return new ResponseEntity<>(new Message("cancel", null), HttpStatus.SERVICE_UNAVAILABLE);
     }
+    //                    RestTemplate restTemplate = new RestTemplate();
+//
+//                    HttpHeaders headers = new HttpHeaders();
+//                    headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+//                    headers.add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36");
+//
+//                    HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
+//
+//                    ResponseEntity<?> result =
+//                            restTemplate.exchange(uri + CANCEL_URL, HttpMethod.GET, entity, Message.class);
+    //return new RedirectView(link.getHref());
 
 }
