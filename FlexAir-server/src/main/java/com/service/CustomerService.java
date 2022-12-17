@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface CustomerService {
     public boolean isCustomerExist(String login);
+    public boolean isCustomerExistByID(Integer id);
     public boolean checkPassword(String login, String password);
     public List<Customer> getCustomers();
     public Customer createCustomer(Customer customer);

@@ -4,7 +4,6 @@ import com.model.entity.Customer;
 import com.model.entity.PassportData;
 import com.repository.CustomerRepository;
 import com.repository.PassportDataRepository;
-import org.hibernate.cfg.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -33,6 +32,12 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public boolean isCustomerExist(String login) {
         List<Customer> result = customerRepository.findByLogin(login);
+        return !result.isEmpty();
+    }
+
+    @Override
+    public boolean isCustomerExistByID(Integer id) {
+        List<Customer> result = customerRepository.findByCustomerID(id);
         return !result.isEmpty();
     }
 

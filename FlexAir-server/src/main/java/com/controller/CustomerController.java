@@ -28,6 +28,15 @@ public class CustomerController {
     public Customer getCustomerByID(@PathVariable Integer id){
         return customerService.getCustomerByID(id);
     }
+    @GetMapping("/{id}/is_exist")
+    public ResponseEntity<Message> isCustomerExistByID(@PathVariable Integer id){
+        if (customerService.isCustomerExistByID(id)){
+            return new ResponseEntity<>(new Message("success", null),HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>(new Message("fail", null),HttpStatus.NOT_FOUND);
+        }
+    }
     @GetMapping("/is_exist")
     public ResponseEntity<Message> isCustomerExist(@RequestParam String login){
         if (customerService.isCustomerExist(login)){
