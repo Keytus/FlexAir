@@ -6,13 +6,18 @@ public class Order {
     private String method;
     private String intent;
     private String description;
+    private String promoValue;
 
-    public Order(double price, String currency, String method, String intent, String description) {
+    public Order(double price, String currency, String method, String intent, String description, String promoValue) {
         this.price = price;
         this.currency = currency;
         this.method = method;
         this.intent = intent;
         this.description = description;
+        this.promoValue = promoValue;
+    }
+
+    public Order() {
     }
 
     public double getPrice() {
@@ -55,14 +60,11 @@ public class Order {
         this.description = description;
     }
 
-    @Override
-    public String toString() {
-        return "Order{" +
-                "price=" + price +
-                ", currency='" + currency + '\'' +
-                ", method='" + method + '\'' +
-                ", intent='" + intent + '\'' +
-                ", description='" + description + '\'' +
-                '}';
+    public String getPromoValue() {
+        return promoValue;
+    }
+
+    public void setPromoValue(String promoValue) {
+        this.promoValue = promoValue;
     }
 }

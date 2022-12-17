@@ -1,16 +1,10 @@
 package com.service;
 
-import com.model.entity.Customer;
-import com.model.entity.Flight;
-import com.model.entity.SeatSuite;
-import com.model.entity.Ticket;
+import com.model.entity.*;
 import com.paypal.api.payments.*;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.PayPalRESTException;
-import com.repository.CustomerRepository;
-import com.repository.FlightRepository;
-import com.repository.SeatSuiteRepository;
-import com.repository.TicketRepository;
+import com.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
@@ -37,6 +31,9 @@ public class PaypalServiceImpl implements PaypalService{
 
     @Autowired
     private SeatSuiteRepository seatSuiteRepository;
+
+    @Autowired
+    private PromocodeRepository promocodeRepository;
 
     @Override
     public Payment createPayment(Double total, String currency, String method, String intent, String description,
@@ -78,6 +75,8 @@ public class PaypalServiceImpl implements PaypalService{
         paymentExecute.setPayerId(payerId);
         return payment.execute(apiContext, paymentExecute);
     }
+
+
     @Override
     public Ticket createTicket(String description, String total){
         Float cost = Float.parseFloat(total);
@@ -111,11 +110,23 @@ public class PaypalServiceImpl implements PaypalService{
                 throw new ResourceNotFoundException("Invalid seat class");
         }
 
+        if (items.size() == 4){
+            Integer promocodeID = Integer.parseInt(items.get(3));
+            Promocode promocode = promocodeRepository.findById(promocodeID)
+                    .orElseThrow(() -> new ResourceNotFoundException("Promocode not exist with id :" + promocodeID));
+            promocode.setUseCount(promocode.getUseCount() - 1);
+            promocodeRepository.save(promocode);
+        }
+
         seatSuiteRepository.save(seatSuite);
 
         ticketRepository.save(ticket);
 
         return ticket;
+    }
+    @Override
+    public Promocode getPromocodeByValue(String value){
+        return promocodeRepository.findByPromocodeValue(value).get(0);
     }
 
     private boolean checkSeatSuite(String description){

@@ -3,6 +3,7 @@ package com.controller;
 
 import com.model.Message;
 import com.model.Order;
+import com.model.entity.Promocode;
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
@@ -26,6 +27,13 @@ public class PaypalController {
     @PostMapping("/")
     public ResponseEntity<?> payment(@RequestBody Order order) {
         String uri = ServletUriComponentsBuilder.fromCurrentRequest().toUriString();
+
+        if (order.getPromoValue() != null){
+            Promocode promocode = paypalService.getPromocodeByValue(order.getPromoValue());
+            order.setPrice(order.getPrice() - (order.getPrice() * promocode.getDiscount() / 100));
+            order.setDescription(order.getDescription() + ";" + promocode.getPromocodeID());
+        }
+
         try {
             Payment payment = paypalService.createPayment(order.getPrice(), order.getCurrency(), order.getMethod(),
                     order.getIntent(), order.getDescription(), uri + CANCEL_URL.substring(1),
@@ -63,16 +71,4 @@ public class PaypalController {
         }
         return new ResponseEntity<>(new Message("cancel", null), HttpStatus.SERVICE_UNAVAILABLE);
     }
-    //                    RestTemplate restTemplate = new RestTemplate();
-//
-//                    HttpHeaders headers = new HttpHeaders();
-//                    headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-//                    headers.add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36");
-//
-//                    HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
-//
-//                    ResponseEntity<?> result =
-//                            restTemplate.exchange(uri + CANCEL_URL, HttpMethod.GET, entity, Message.class);
-    //return new RedirectView(link.getHref());
-
 }
