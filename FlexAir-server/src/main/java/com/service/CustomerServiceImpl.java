@@ -98,11 +98,11 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer resetPassword(Integer id){
-        Customer customer = getCustomerByID(id);
+    public Customer resetPassword(String email){
+        Customer customer = customerRepository.findByEmail(email).get(0);
 
         if (customer.getEmail() == null){
-            throw new ResourceNotFoundException("Email is empty with customerID id : " + id);
+            throw new ResourceNotFoundException("Where no customers with email : " + email);
         }
 
         int leftLimit = 65;

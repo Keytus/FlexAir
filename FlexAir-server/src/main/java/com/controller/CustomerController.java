@@ -66,9 +66,9 @@ public class CustomerController {
         Customer customer = customerService.setPassportDataByCustomerID(id, passportData);
         return new ResponseEntity<>(new Message("success", customer.getCustomerID()), HttpStatus.OK);
     }
-    @GetMapping("/{id}/reset_pas")
-    public ResponseEntity<Message> resetPassword(@PathVariable Integer id){
-        Customer customer = customerService.resetPassword(id);
+    @GetMapping("/reset_pas")
+    public ResponseEntity<Message> resetPassword(@RequestParam String email){
+        Customer customer = customerService.resetPassword(email);
         return new ResponseEntity<>(new Message("success", customer.getCustomerID()), HttpStatus.OK);
     }
 }
