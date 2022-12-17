@@ -35,4 +35,13 @@ public class PromocodeController {
             return new ResponseEntity<>(new Message("fail", null),HttpStatus.NOT_FOUND);
         }
     }
+    @GetMapping("/is_suitable")
+    public ResponseEntity<Message> isPromocodeSuitableByValue(@RequestParam String value, @RequestParam Integer flightID){
+        if (promocodeService.isPromocodeSuitableByValue(value, flightID)){
+            return new ResponseEntity<>(new Message("success", null), HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>(new Message("fail", null),HttpStatus.NOT_FOUND);
+        }
+    }
 }
