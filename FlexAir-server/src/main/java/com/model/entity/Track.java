@@ -16,7 +16,7 @@ public class Track {
     @JoinColumn(name="endairport", referencedColumnName="airportname")
     private Airport endAirport;
     @Column(name="isinwheel")
-    private Boolean IsInWheel;
+    private Boolean isInWheel;
 
     public Integer getTrackID() {
         return trackID;
@@ -31,7 +31,7 @@ public class Track {
     }
 
     public Boolean getIsInWheel() {
-        return IsInWheel;
+        return isInWheel;
     }
 
     public void setTrackID(Integer trackID) {
@@ -47,7 +47,7 @@ public class Track {
     }
 
     public void setInWheel(Boolean inWheel) {
-        IsInWheel = inWheel;
+        isInWheel = inWheel;
     }
 
     @Override
@@ -56,7 +56,7 @@ public class Track {
                 "trackID=" + trackID +
                 ", startAirport=" + startAirport +
                 ", endAirport=" + endAirport +
-                ", IsInWheel=" + IsInWheel +
+                ", IsInWheel=" + isInWheel +
                 ']';
     }
 }

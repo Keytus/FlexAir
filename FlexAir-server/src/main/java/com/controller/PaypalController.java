@@ -60,7 +60,6 @@ public class PaypalController {
     public ResponseEntity<Message> successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId) {
         try {
             Payment payment = paypalService.executePayment(paymentId, payerId);
-            System.out.println(payment.toJSON());
             if (payment.getState().equals("approved")) {
                 paypalService.createTicket(payment.getTransactions().get(0).getDescription(),
                         payment.getTransactions().get(0).getAmount().getTotal());
