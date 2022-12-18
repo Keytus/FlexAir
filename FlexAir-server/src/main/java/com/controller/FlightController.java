@@ -1,9 +1,7 @@
 package com.controller;
 
 import com.model.dto.FlightDTO;
-import com.model.dto.NewsDTO;
 import com.model.entity.Flight;
-import com.model.entity.News;
 import com.service.FlightService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
