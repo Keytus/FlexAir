@@ -3,6 +3,7 @@ package com.controller;
 import com.model.Message;
 import com.model.entity.Promocode;
 import com.service.PromocodeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,11 +17,8 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/api/promocode")
 public class PromocodeController {
+    @Autowired
     private PromocodeService promocodeService;
-
-    public PromocodeController(PromocodeService promocodeService) {
-        this.promocodeService = promocodeService;
-    }
 
     @GetMapping("/promocodes")
     public List<Promocode> getCustomers(){

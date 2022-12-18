@@ -4,6 +4,7 @@ import com.model.Message;
 import com.model.entity.Customer;
 import com.model.entity.PassportData;
 import com.service.CustomerService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,13 +14,9 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/api/customer")
 public class CustomerController {
-
+    @Autowired
     private CustomerService customerService;
 
-    public CustomerController(CustomerService customerService){
-        super();
-        this.customerService = customerService;
-    }
     @GetMapping("/customers")
     public List<Customer> getCustomers(){
         return customerService.getCustomers();

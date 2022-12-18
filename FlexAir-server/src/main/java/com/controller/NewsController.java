@@ -3,6 +3,7 @@ package com.controller;
 import com.model.dto.NewsDTO;
 import com.model.entity.News;
 import com.service.NewsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,11 +15,8 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/api/news")
 public class NewsController {
+    @Autowired
     private NewsService newsService;
-    public NewsController(NewsService newsService){
-        super();
-        this.newsService = newsService;
-    }
     @GetMapping("/news")
     public List<News> getNews(){
         return newsService.getNews();

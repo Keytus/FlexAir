@@ -9,4 +9,6 @@ public interface PromocodeService {
     public List<Promocode> getPromocodes();
     public boolean isExistPromocodeByValue(String value);
     public boolean isPromocodeSuitableByValue(String value, Integer flightID);
+    public String generatePromocodeValue();
+    public Promocode getPromocodeByValue(String value);
 }

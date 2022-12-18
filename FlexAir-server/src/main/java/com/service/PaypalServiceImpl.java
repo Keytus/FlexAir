@@ -35,6 +35,9 @@ public class PaypalServiceImpl implements PaypalService{
     @Autowired
     private PromocodeRepository promocodeRepository;
 
+    @Autowired
+    private TrackRepository trackRepository;
+
     @Override
     public Payment createPayment(Double total, String currency, String method, String intent, String description,
                                  String cancelUrl, String successUrl) throws PayPalRESTException {
@@ -62,11 +65,25 @@ public class PaypalServiceImpl implements PaypalService{
         redirectUrls.setReturnUrl(successUrl);
         payment.setRedirectUrls(redirectUrls);
 
+        return payment;
+    }
+
+    @Override
+    public Payment createTicketPayment(Double total, String currency, String method, String intent, String description,
+                                       String cancelUrl, String successUrl) throws PayPalRESTException{
+        Payment payment = createPayment(total,currency,method, intent, description,cancelUrl, successUrl);
         if (checkSeatSuite(description)){
             return payment.create(apiContext);
         }
         else throw new ResourceNotFoundException("No available seats");
     }
+
+    public Payment createFortunePayment(Double total, String currency, String method, String intent, String description,
+                                        String cancelUrl, String successUrl) throws PayPalRESTException{
+        Payment payment = createPayment(total,currency,method, intent, description,cancelUrl, successUrl);
+        return payment.create(apiContext);
+    }
+
     @Override
     public Payment executePayment(String paymentId, String payerId) throws PayPalRESTException {
         Payment payment = new Payment();
@@ -124,9 +141,24 @@ public class PaypalServiceImpl implements PaypalService{
 
         return ticket;
     }
-    @Override
-    public Promocode getPromocodeByValue(String value){
-        return promocodeRepository.findByPromocodeValue(value).get(0);
+
+    public Promocode createFortunePromocode(String description){
+        List<String> items = Arrays.asList(description.split("\\s*;\\s*"));
+        Integer trackID = Integer.parseInt(items.get(0));
+        String promocodeValue = items.get(1);
+
+        Track track = trackRepository.findById(trackID)
+                .orElseThrow(() -> new ResourceNotFoundException("Track not exist with id :" + trackID));
+
+        Promocode promocode = new Promocode();
+        promocode.setDiscount(100);
+        promocode.setUseCount(1);
+        promocode.setTrack(track);
+        promocode.setPromocodeValue(promocodeValue);
+
+        promocodeRepository.save(promocode);
+
+        return promocode;
     }
 
     private boolean checkSeatSuite(String description){

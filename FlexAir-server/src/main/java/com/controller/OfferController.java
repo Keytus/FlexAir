@@ -3,6 +3,7 @@ package com.controller;
 import com.model.dto.OfferDTO;
 import com.model.entity.Offer;
 import com.service.OfferService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,12 +15,8 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/api/offer")
 public class OfferController {
+    @Autowired
     private OfferService offerService;
-
-    public OfferController(OfferService offerService) {
-        super();
-        this.offerService = offerService;
-    }
     @GetMapping("/offers")
     public List<Offer> getOffers(){
         return offerService.getOffers();
