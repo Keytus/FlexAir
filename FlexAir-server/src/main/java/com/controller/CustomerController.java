@@ -21,6 +21,10 @@ public class CustomerController {
     public List<Customer> getCustomers(){
         return customerService.getCustomers();
     }
+    @GetMapping("/employees")
+    public List<Customer> getEmployees(){
+        return customerService.getEmployees();
+    }
     @GetMapping("/{id}")
     public Customer getCustomerByID(@PathVariable Integer id){
         return customerService.getCustomerByID(id);

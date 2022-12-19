@@ -11,6 +11,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -154,5 +155,16 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setCustomerPassword(customerData.getCustomerPassword());
 
         return customerRepository.save(customer);
+    }
+    @Override
+    public List<Customer> getEmployees(){
+        List<Customer> customers = customerRepository.findAll();
+        List<Customer> resultSet = new ArrayList<>();
+        for(Customer customer : customers){
+            if (!customer.getCustomerType().equals("user")){
+                resultSet.add(customer);
+            }
+        }
+        return resultSet;
     }
 }

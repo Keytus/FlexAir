@@ -18,4 +18,5 @@ public interface CustomerService {
     public Customer resetPassword(String email);
     public void deleteCustomer(Integer id);
     public Customer updateCustomer(Integer id, Customer customer);
+    public List<Customer> getEmployees();
 }
