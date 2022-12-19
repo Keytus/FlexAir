@@ -1,13 +1,13 @@
 package com.controller;
 
+import com.model.Message;
 import com.model.dto.NewsDTO;
 import com.model.entity.News;
 import com.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +24,21 @@ public class NewsController {
     @GetMapping("/{id}")
     public News getNewsByID(@PathVariable Integer id){
         return newsService.getNewsByID(id);
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<Message> updateNewsByID(@PathVariable Integer id, @RequestBody NewsDTO newsData){
+        News news = newsService.updateNewsByID(id, newsData);
+        return new ResponseEntity<>(new Message("success", news.getNewsID()), HttpStatus.OK);
+    }
+    @PostMapping("/create")
+    public ResponseEntity<Message> createNews(@RequestBody NewsDTO newsData){
+        News news = newsService.createNews(newsData);
+        return new ResponseEntity<>(new Message("success", news.getNewsID()), HttpStatus.OK);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Message> deleteNewsByID(@PathVariable Integer id){
+        newsService.deleteNewsByID(id);
+        return new ResponseEntity<>(new Message("success", id), HttpStatus.OK);
     }
     @GetMapping("/dto/news")
     public List<NewsDTO> getNewsDTO(){

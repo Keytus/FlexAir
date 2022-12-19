@@ -25,6 +25,15 @@ public class CustomerController {
     public Customer getCustomerByID(@PathVariable Integer id){
         return customerService.getCustomerByID(id);
     }
+    @PutMapping("/{id}")
+    public Customer updateCustomerByID(@PathVariable Integer id, @RequestBody Customer customer){
+        return customerService.updateCustomer(id, customer);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Message> deleteCustomerByID(@PathVariable Integer id){
+        customerService.deleteCustomer(id);
+        return new ResponseEntity<>(new Message("success", id),HttpStatus.OK);
+    }
     @GetMapping("/{id}/is_exist")
     public ResponseEntity<Message> isCustomerExistByID(@PathVariable Integer id){
         if (customerService.isCustomerExistByID(id)){

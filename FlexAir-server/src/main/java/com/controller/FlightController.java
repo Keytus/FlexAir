@@ -1,13 +1,13 @@
 package com.controller;
 
+import com.model.Message;
 import com.model.dto.FlightDTO;
 import com.model.entity.Flight;
 import com.service.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +26,16 @@ public class FlightController {
     public List<String> getCities(){
         return flightService.getCities();
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Message> deleteFlightByID(@PathVariable Integer id){
+        flightService.deleteFlightByID(id);
+        return new ResponseEntity<>(new Message("success", id), HttpStatus.OK);
+    }
+//    @PostMapping("/create")
+//    public Flight createFlight(@RequestBody FlightDTO flightData){
+//
+//    }
 
     @GetMapping("/dto/flights")
     public List<FlightDTO> getFlightsDTO(){

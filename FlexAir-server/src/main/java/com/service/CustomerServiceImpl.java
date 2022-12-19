@@ -136,4 +136,23 @@ public class CustomerServiceImpl implements CustomerService {
 
         return customer;
     }
+
+    @Override
+    public void deleteCustomer(Integer id){
+        Customer customer = customerRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer not exist with id :" + id));
+        customerRepository.delete(customer);
+    }
+
+    @Override
+    public Customer updateCustomer(Integer id, Customer customerData){
+        Customer customer = customerRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer not exist with id :" + id));
+        customer.setLogin(customerData.getLogin());
+        customer.setEmail(customerData.getEmail());
+        customer.setCustomerType(customerData.getCustomerType());
+        customer.setCustomerPassword(customerData.getCustomerPassword());
+
+        return customerRepository.save(customer);
+    }
 }

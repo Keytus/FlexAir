@@ -1,15 +1,15 @@
 package com.model;
 
-public class FortinePay {
+public class FortunePay {
     private String promoValue;
     private String paymentUrl;
 
-    public FortinePay(String promoValue, String paymentUrl) {
+    public FortunePay(String promoValue, String paymentUrl) {
         this.promoValue = promoValue;
         this.paymentUrl = paymentUrl;
     }
 
-    public FortinePay() {
+    public FortunePay() {
     }
 
     public String getPromoValue() {

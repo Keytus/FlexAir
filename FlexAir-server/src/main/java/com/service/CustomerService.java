@@ -16,4 +16,6 @@ public interface CustomerService {
     public PassportData getPassportDataByCustomerID(Integer id);
     public Customer setPassportDataByCustomerID(Integer id, PassportData passportData);
     public Customer resetPassword(String email);
+    public void deleteCustomer(Integer id);
+    public Customer updateCustomer(Integer id, Customer customer);
 }

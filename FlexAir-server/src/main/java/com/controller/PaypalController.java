@@ -3,7 +3,7 @@ package com.controller;
 
 import com.model.Message;
 import com.model.Order;
-import com.model.FortinePay;
+import com.model.FortunePay;
 import com.model.entity.Promocode;
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
@@ -85,7 +85,7 @@ public class PaypalController {
                     uri + SUCCESS);
             for(Links link:payment.getLinks()) {
                 if(link.getRel().equals("approval_url")) {
-                    return new ResponseEntity<>(new FortinePay(newPromocodeValue, link.getHref()), HttpStatus.OK);
+                    return new ResponseEntity<>(new FortunePay(newPromocodeValue, link.getHref()), HttpStatus.OK);
                 }
             }
         } catch (PayPalRESTException e) {
