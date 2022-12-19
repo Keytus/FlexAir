@@ -8,6 +8,12 @@ spring:
     init:
       mode: always
 
+  paypal:
+    mode: ${PROD_PAYPAL_MODE}
+    client:
+      id: ${PROD_PAYPAL_CLIENT_ID}
+      secret: ${PROD_PAYPAL_CLIENT_SECRET}
+
   mail:
     host: ${PROD_MAIL_HOST}
     port: ${PROD_MAIL_PORT}
