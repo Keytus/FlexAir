@@ -25,3 +25,11 @@ spring:
           auth: true
           starttls:
             enable: true
+
+  newsAPI:
+    key: ${PROD_NEWSAPI_KEY}
+
+  amadeus:
+    client:
+      id: ${PROD_AMADEUS_CLIENT_ID}
+      secret: ${PROD_AMADEUS_CLIENT_SECRET}

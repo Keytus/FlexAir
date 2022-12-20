@@ -2,9 +2,7 @@ package com.service;
 
 import com.model.dto.FlightDTO;
 import com.model.entity.Airport;
-import com.model.entity.Customer;
 import com.model.entity.Flight;
-import com.model.entity.SeatSuite;
 import com.repository.AirportRepository;
 import com.repository.FlightRepository;
 import org.springframework.beans.factory.annotation.Autowired;

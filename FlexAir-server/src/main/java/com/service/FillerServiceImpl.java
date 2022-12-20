@@ -1,5 +1,6 @@
 package com.service;
 
+import com.amadeus.Amadeus;
 import com.kwabenaberko.newsapilib.NewsApiClient;
 import com.kwabenaberko.newsapilib.models.Article;
 import com.kwabenaberko.newsapilib.models.request.EverythingRequest;
@@ -14,6 +15,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +37,15 @@ public class FillerServiceImpl implements FillerService{
     @Autowired
     CustomerRepository customerRepository;
 
+    @Value("${spring.newsAPI.key}")
+    private String keyNewsAPI;
+
+    @Value("${spring.amadeus.client.id}")
+    private String amadeusClientID;
+
+    @Value("${spring.amadeus.client.secret}")
+    private String amadeusClientSecret;
+
     @Override
     public void generateNews(String keyWord, Integer generateCount){
         List<Customer> contentMakers = customerRepository.findByCustomerType("contentmaker");
@@ -43,8 +54,7 @@ public class FillerServiceImpl implements FillerService{
         }
         List<News> news = new ArrayList<>();
 
-        String key = "36be80b2da384cbf8a64e0fd8c4d5719";
-        NewsApiClient client = new NewsApiClient(key);
+        NewsApiClient client = new NewsApiClient(keyNewsAPI);
         client.getEverything(
                 new EverythingRequest.Builder()
                         .q(keyWord)
@@ -81,6 +91,13 @@ public class FillerServiceImpl implements FillerService{
                     }
                 }
         );
+    }
+
+    @Override
+    public void generateFlights(Integer count){
+        Amadeus amadeus = Amadeus
+                .builder("1SAjncKjiZ9XZtJRWOVrI3srp7c4BrYG", "8f7QYADGaOtrKhqY")
+                .build();
     }
 
     private int getRandomNumber(int min, int max) {
