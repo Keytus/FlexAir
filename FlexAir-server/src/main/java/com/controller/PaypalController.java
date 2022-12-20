@@ -37,6 +37,11 @@ public class PaypalController {
             Promocode promocode = promocodeService.getPromocodeByValue(order.getPromoValue());
             order.setPrice(order.getPrice() - (order.getPrice() * promocode.getDiscount() / 100));
             order.setDescription(order.getDescription() + ";" + promocode.getPromocodeID());
+            if (promocode.getDiscount() == 100){
+                paypalService.createTicket(order.getDescription(),
+                        "0.0");
+                return new ResponseEntity<>(new Message("success", null), HttpStatus.OK);
+            }
         }
 
         try {
