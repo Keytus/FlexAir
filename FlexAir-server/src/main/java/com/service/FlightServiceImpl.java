@@ -1,10 +1,14 @@
 package com.service;
 
-import com.model.dto.FlightDTO;
+import com.model.FlightData;
 import com.model.entity.Airport;
 import com.model.entity.Flight;
+import com.model.entity.SeatSuite;
+import com.model.entity.Track;
 import com.repository.AirportRepository;
 import com.repository.FlightRepository;
+import com.repository.SeatSuiteRepository;
+import com.repository.TrackRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
@@ -18,6 +22,10 @@ public class FlightServiceImpl implements FlightService{
     private AirportRepository airportRepository;
     @Autowired
     private FlightRepository flightRepository;
+    @Autowired
+    private SeatSuiteRepository seatSuiteRepository;
+    @Autowired
+    private TrackRepository trackRepository;
     @Override
     public List<Flight> getFlights(){
         return  flightRepository.findAll();
@@ -46,22 +54,41 @@ public class FlightServiceImpl implements FlightService{
         flightRepository.delete(flight);
     }
     @Override
-    public Flight createFlight(FlightDTO flightData){
+    public Flight createFlight(FlightData flightData){
         Flight flight = new Flight();
 
-//        flight.setArrivalTime(flightData.getArrivalTime());
-//        flight.setDepartureTime(flightData.getDepartureTime());
-//        flight.setEconomyCost(flightData.getEconomyCost());
-//        flight.setFirstClassCost(flightData.getFirstClassCost());
-//        flight.setLuxCost(flightData.getLuxCost());
-//
-//        SeatSuite seatSuite = new SeatSuite();
-//        seatSuite.setEconomyReserved(0);
-//        seatSuite.setFirstClassReserved(0);
-//        seatSuite.setLuxReserved(0);
-//        seatSuite.setEconomyTotal(flightData.getEconomyTotal());
-//        seatSuite.setFirstClassTotal(flightData.getFirstClassTotal());
-//        seatSuite.setLuxTotal(flightData.getLuxTotal());
+        flight.setArrivalTime(flightData.getArrivalTime());
+        flight.setDepartureTime(flightData.getDepartureTime());
+        flight.setEconomyCost(flightData.getEconomyCost());
+        flight.setFirstClassCost(flightData.getFirstClassCost());
+        flight.setLuxCost(flightData.getLuxCost());
+
+        SeatSuite seatSuite = seatSuiteRepository.findById(flightData.getSeatSuiteID())
+                .orElseThrow(() -> new ResourceNotFoundException("SeatSuite not exist with id :" + flightData.getSeatSuiteID()));
+        flight.setSeatSuite(seatSuite);
+        Track track = trackRepository.findById(flightData.getTrackID())
+                .orElseThrow(() -> new ResourceNotFoundException("Track not exist with id :" + flightData.getTrackID()));
+        flight.setTrack(track);
+
+        return flightRepository.save(flight);
+    }
+
+    public Flight updateFlightByID(Integer id, FlightData flightData){
+        Flight flight = flightRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Flight not exist with id :" + id));
+
+        flight.setArrivalTime(flightData.getArrivalTime());
+        flight.setDepartureTime(flightData.getDepartureTime());
+        flight.setEconomyCost(flightData.getEconomyCost());
+        flight.setFirstClassCost(flightData.getFirstClassCost());
+        flight.setLuxCost(flightData.getLuxCost());
+
+        SeatSuite seatSuite = seatSuiteRepository.findById(flightData.getSeatSuiteID())
+                .orElseThrow(() -> new ResourceNotFoundException("SeatSuite not exist with id :" + flightData.getSeatSuiteID()));
+        flight.setSeatSuite(seatSuite);
+        Track track = trackRepository.findById(flightData.getTrackID())
+                .orElseThrow(() -> new ResourceNotFoundException("Track not exist with id :" + flightData.getTrackID()));
+        flight.setTrack(track);
 
         return flightRepository.save(flight);
     }

@@ -1,9 +1,7 @@
 package com.service;
 
 import com.model.dto.ExtendedOfferDTO;
-import com.model.dto.OfferDTO;
 import com.model.entity.Offer;
-import com.repository.OfferRepository;
 
 import java.util.List;
 

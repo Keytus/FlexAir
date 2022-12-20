@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.model.FlightData;
 import com.model.Message;
 import com.model.dto.FlightDTO;
 import com.model.entity.Flight;
@@ -32,10 +33,16 @@ public class FlightController {
         flightService.deleteFlightByID(id);
         return new ResponseEntity<>(new Message("success", id), HttpStatus.OK);
     }
-//    @PostMapping("/create")
-//    public Flight createFlight(@RequestBody FlightDTO flightData){
-//
-//    }
+    @PostMapping("/create")
+    public ResponseEntity<Message> createFlight(@RequestBody FlightData flightData){
+        Flight flight = flightService.createFlight(flightData);
+        return new ResponseEntity<>(new Message("success", flight.getFlightID()), HttpStatus.OK);
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<Message> updateFlightByID(@PathVariable Integer id, @RequestBody FlightData flightData){
+        Flight flight = flightService.updateFlightByID(id, flightData);
+        return new ResponseEntity<>(new Message("success", flight.getFlightID()), HttpStatus.OK);
+    }
 
     @GetMapping("/dto/flights")
     public List<FlightDTO> getFlightsDTO(){
