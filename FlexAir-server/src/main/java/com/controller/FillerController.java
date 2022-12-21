@@ -21,4 +21,9 @@ public class FillerController {
         fillerService.generateNews(keyWord, generateCount);
         return new ResponseEntity<>(new Message("success", null), HttpStatus.OK);
     }
+    @GetMapping("/flights")
+    public ResponseEntity<Message> generateFlights(@RequestParam Integer generateCount){
+        fillerService.generateFlights(generateCount);
+        return new ResponseEntity<>(new Message("success", null), HttpStatus.OK);
+    }
 }

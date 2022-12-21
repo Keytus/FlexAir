@@ -5,12 +5,8 @@ import com.kwabenaberko.newsapilib.NewsApiClient;
 import com.kwabenaberko.newsapilib.models.Article;
 import com.kwabenaberko.newsapilib.models.request.EverythingRequest;
 import com.kwabenaberko.newsapilib.models.response.ArticleResponse;
-import com.model.entity.Customer;
-import com.model.entity.InfoBlock;
-import com.model.entity.News;
-import com.repository.CustomerRepository;
-import com.repository.InfoBlockRepository;
-import com.repository.NewsRepository;
+import com.model.entity.*;
+import com.repository.*;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -21,21 +17,33 @@ import org.springframework.stereotype.Service;
 
 import java.net.URL;
 import java.net.URLConnection;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 public class FillerServiceImpl implements FillerService{
 
     @Autowired
-    InfoBlockRepository infoBlockRepository;
+    private InfoBlockRepository infoBlockRepository;
 
     @Autowired
-    NewsRepository newsRepository;
+    private NewsRepository newsRepository;
 
     @Autowired
-    CustomerRepository customerRepository;
+    private CustomerRepository customerRepository;
+
+    @Autowired
+    private SeatSuiteRepository seatSuiteRepository;
+
+    @Autowired
+    private FlightRepository flightRepository;
+
+    @Autowired
+    private TrackRepository trackRepository;
 
     @Value("${spring.newsAPI.key}")
     private String keyNewsAPI;
@@ -98,6 +106,32 @@ public class FillerServiceImpl implements FillerService{
         Amadeus amadeus = Amadeus
                 .builder("1SAjncKjiZ9XZtJRWOVrI3srp7c4BrYG", "8f7QYADGaOtrKhqY")
                 .build();
+        List<Track> tracks = trackRepository.findAll();
+
+        if (tracks.isEmpty()){
+            throw new ResourceNotFoundException("No tracks");
+        }
+        for(int counter=0;counter<count;counter++){
+            Flight flight = new Flight();
+            Timestamp departure = randomDate();
+            Timestamp arrival = randomDate(departure);
+            flight.setDepartureTime(departure);
+            flight.setArrivalTime(arrival);
+            flight.setEconomyCost((float) getRandomNumber(100, 200));
+            flight.setFirstClassCost((float) getRandomNumber(500, 1000));
+            flight.setLuxCost((float) getRandomNumber(2000, 5000));
+            SeatSuite seatSuite = new SeatSuite();
+            seatSuite.setLuxTotal(getRandomNumber(1, 10));
+            seatSuite.setFirstClassTotal(getRandomNumber(2, 6) * 5);
+            seatSuite.setEconomyTotal(getRandomNumber(6, 10) * getRandomNumber(10, 15));
+            seatSuite.setLuxReserved(0);
+            seatSuite.setFirstClassReserved(0);
+            seatSuite.setEconomyReserved(0);
+            seatSuiteRepository.save(seatSuite);
+            flight.setSeatSuite(seatSuite);
+            flight.setTrack(tracks.get(getRandomNumber(0, tracks.size()-1)));
+            flightRepository.save(flight);
+        }
     }
 
     private int getRandomNumber(int min, int max) {
@@ -122,5 +156,29 @@ public class FillerServiceImpl implements FillerService{
         Element body = doc.body();
         String text = body.text();
         return text;
+    }
+
+    private Timestamp randomDate() {
+        Calendar calendar = Calendar.getInstance();
+        long startMillis = calendar.getTimeInMillis();
+        calendar.add(Calendar.YEAR, 1);
+        long endMillis = calendar.getTimeInMillis();
+        long randomMillisSinceEpoch = ThreadLocalRandom
+                .current()
+                .nextLong(startMillis, endMillis);
+
+        return new Timestamp(randomMillisSinceEpoch);
+    }
+    private Timestamp randomDate(Timestamp start) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(start.getTime());
+        long startMillis = calendar.getTimeInMillis();
+        calendar.add(Calendar.HOUR, getRandomNumber(4, 12));
+        long endMillis = calendar.getTimeInMillis();
+        long randomMillisSinceEpoch = ThreadLocalRandom
+                .current()
+                .nextLong(startMillis, endMillis);
+
+        return new Timestamp(randomMillisSinceEpoch);
     }
 }
