@@ -94,13 +94,12 @@ public class CustomerServiceImpl implements CustomerService {
         resultPassportData.setDateOfBirth(passportData.getDateOfBirth());
         resultPassportData.setCountry(passportData.getCountry());
         resultPassportData.setSex(passportData.getSex());
-        resultPassportData.setAuthority(resultPassportData.getAuthority());
+        resultPassportData.setAuthority(passportData.getAuthority());
         resultPassportData.setIdNumber(passportData.getIdNumber());
 
         passportDataRepository.save(resultPassportData);
         customer.setPassportData(resultPassportData);
-        customerRepository.save(customer);
-        return customer;
+        return customerRepository.save(customer);
     }
 
     @Override
