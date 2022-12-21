@@ -23,7 +23,7 @@ public class Customer {
     private Boolean isActive;
     @Column(name="is_admin", columnDefinition = "boolean default false")
     private Boolean isAdmin;
-    @Column(name="last_login", columnDefinition = "null")
+    @Column(name="last_login", columnDefinition = "timestamp default null")
     private Timestamp lastLogin;
     public Integer getCustomerID() {
         return customerID;
