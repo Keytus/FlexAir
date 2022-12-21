@@ -1,6 +1,7 @@
 package com.model.entity;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "customer")
@@ -22,6 +23,8 @@ public class Customer {
     private Boolean isActive;
     @Column(name="isadmin", columnDefinition = "boolean default false")
     private Boolean isAdmin;
+    @Column(name="last_login")
+    private Timestamp lastLogin;
     public Integer getCustomerID() {
         return customerID;
     }
@@ -85,5 +88,13 @@ public class Customer {
 
     public void setAdmin(Boolean admin) {
         isAdmin = admin;
+    }
+
+    public Timestamp getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(Timestamp lastLogin) {
+        this.lastLogin = lastLogin;
     }
 }
