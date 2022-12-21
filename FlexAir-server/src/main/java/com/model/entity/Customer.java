@@ -19,9 +19,9 @@ public class Customer {
     private String customerType;
     @Column(name="customerpassword")
     private String customerPassword;
-    @Column(name="isactive", columnDefinition = "boolean default true")
+    @Column(name="is_active", columnDefinition = "boolean default true")
     private Boolean isActive;
-    @Column(name="isadmin", columnDefinition = "boolean default false")
+    @Column(name="is_admin", columnDefinition = "boolean default false")
     private Boolean isAdmin;
     @Column(name="last_login")
     private Timestamp lastLogin;
