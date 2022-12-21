@@ -19,12 +19,12 @@ public class Customer {
     private String customerType;
     @Column(name="customerpassword")
     private String customerPassword;
-    @Column(name="is_active", columnDefinition = "boolean default true")
-    private Boolean isActive;
-    @Column(name="is_admin", columnDefinition = "boolean default false")
-    private Boolean isAdmin;
-    @Column(name="last_login", columnDefinition = "timestamp default null")
-    private Timestamp lastLogin;
+    @Column(name="is_active")
+    private Boolean isActive = true;
+    @Column(name="is_admin")
+    private Boolean isAdmin = false;
+    @Column(name="last_login")
+    private Timestamp lastLogin = null;
     public Integer getCustomerID() {
         return customerID;
     }
