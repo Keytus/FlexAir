@@ -18,6 +18,10 @@ public class Customer {
     private String customerType;
     @Column(name="customerpassword")
     private String customerPassword;
+    @Column(name="isactive", columnDefinition = "boolean default true")
+    private Boolean isActive;
+    @Column(name="isadmin", columnDefinition = "boolean default false")
+    private Boolean isAdmin;
     public Integer getCustomerID() {
         return customerID;
     }
@@ -63,15 +67,23 @@ public class Customer {
         this.customerPassword = customerPassword;
     }
 
-    @Override
-    public String toString() {
-        return "Customer[" +
-                "customerID=" + customerID +
-                ", login='" + login + '\'' +
-                ", passportData=" + passportData +
-                ", email='" + email + '\'' +
-                ", customerType='" + customerType + '\'' +
-                ", customerPassword='" + customerPassword + '\'' +
-                ']';
+    public void setCustomerID(Integer customerID) {
+        this.customerID = customerID;
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
+    }
+
+    public Boolean getAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(Boolean admin) {
+        isAdmin = admin;
     }
 }
