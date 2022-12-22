@@ -118,7 +118,7 @@ public class PaypalServiceImpl implements PaypalService{
                 seatSuite.setEconomyReserved(seatSuite.getEconomyReserved() + 1);
                 break;
             case "firstClass":
-                seatSuite.setFirstClassReserved(seatSuite.getFirstClassTotal() + 1);
+                seatSuite.setFirstClassReserved(seatSuite.getFirstClassReserved() + 1);
                 break;
             case "lux":
                 seatSuite.setLuxReserved(seatSuite.getLuxReserved() + 1);
@@ -175,13 +175,11 @@ public class PaypalServiceImpl implements PaypalService{
                 }
                 break;
             case "firstClass":
-                seatSuite.setFirstClassReserved(seatSuite.getFirstClassTotal() + 1);
                 if (seatSuite.getFirstClassReserved() == seatSuite.getFirstClassTotal()) {
                     return false;
                 }
                 break;
             case "lux":
-                seatSuite.setLuxReserved(seatSuite.getLuxReserved() + 1);
                 if (seatSuite.getLuxReserved() == seatSuite.getLuxTotal()) {
                     return false;
                 }

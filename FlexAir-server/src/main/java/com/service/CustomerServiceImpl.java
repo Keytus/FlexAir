@@ -56,6 +56,10 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Customer createCustomer(Customer customer){
 
+        if(!customerRepository.findByLogin(customer.getLogin()).isEmpty()){
+            throw new ResourceNotFoundException("Login taken");
+        }
+
         if (customer.getPassportData() != null){
             passportDataRepository.save(customer.getPassportData());
         }
