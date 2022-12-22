@@ -1,10 +1,10 @@
 package com.service;
 
 import com.amadeus.Amadeus;
-import com.kwabenaberko.newsapilib.NewsApiClient;
-import com.kwabenaberko.newsapilib.models.Article;
-import com.kwabenaberko.newsapilib.models.request.EverythingRequest;
-import com.kwabenaberko.newsapilib.models.response.ArticleResponse;
+//import com.kwabenaberko.newsapilib.NewsApiClient;
+//import com.kwabenaberko.newsapilib.models.Article;
+//import com.kwabenaberko.newsapilib.models.request.EverythingRequest;
+//import com.kwabenaberko.newsapilib.models.response.ArticleResponse;
 import com.model.entity.*;
 import com.repository.*;
 import org.jsoup.Jsoup;
@@ -54,52 +54,52 @@ public class FillerServiceImpl implements FillerService{
     @Value("${spring.amadeus.client.secret}")
     private String amadeusClientSecret;
 
-    @Override
-    public void generateNews(String keyWord, Integer generateCount){
-        List<Customer> contentMakers = customerRepository.findByCustomerType("contentmaker");
-        if (contentMakers.isEmpty()){
-            throw new ResourceNotFoundException("No content makers");
-        }
-        List<News> news = new ArrayList<>();
-
-        NewsApiClient client = new NewsApiClient(keyNewsAPI);
-        client.getEverything(
-                new EverythingRequest.Builder()
-                        .q(keyWord)
-                        .build(),
-                new NewsApiClient.ArticlesResponseCallback() {
-                    @Override
-                    public void onSuccess(ArticleResponse response) {
-                        Integer counter = 0;
-                        for (Article article : response.getArticles()){
-                            if (infoBlockRepository.findByHeader(article.getTitle()).isEmpty() && counter < generateCount){
-                                String html = extractHTML(article.getUrl());
-                                String content = getFullContent(html);
-
-                                InfoBlock generatedInfoBlock = new InfoBlock();
-                                News generatedNews = new News();
-
-                                generatedInfoBlock.setHeader(article.getTitle());
-                                generatedInfoBlock.setMain(content);
-
-                                infoBlockRepository.save(generatedInfoBlock);
-
-                                generatedNews.setInfoBlock(generatedInfoBlock);
-                                generatedNews.setCustomer(contentMakers.get(getRandomNumber(0, contentMakers.size()-1)));
-
-                                newsRepository.save(generatedNews);
-                                news.add(generatedNews);
-                                counter++;
-                            }
-                        }
-                    }
-                    @Override
-                    public void onFailure(Throwable throwable) {
-                        throw new ResourceNotFoundException("NewAPI failed");
-                    }
-                }
-        );
-    }
+//    @Override
+//    public void generateNews(String keyWord, Integer generateCount){
+//        List<Customer> contentMakers = customerRepository.findByCustomerType("contentmaker");
+//        if (contentMakers.isEmpty()){
+//            throw new ResourceNotFoundException("No content makers");
+//        }
+//        List<News> news = new ArrayList<>();
+//
+//        NewsApiClient client = new NewsApiClient(keyNewsAPI);
+//        client.getEverything(
+//                new EverythingRequest.Builder()
+//                        .q(keyWord)
+//                        .build(),
+//                new NewsApiClient.ArticlesResponseCallback() {
+//                    @Override
+//                    public void onSuccess(ArticleResponse response) {
+//                        Integer counter = 0;
+//                        for (Article article : response.getArticles()){
+//                            if (infoBlockRepository.findByHeader(article.getTitle()).isEmpty() && counter < generateCount){
+//                                String html = extractHTML(article.getUrl());
+//                                String content = getFullContent(html);
+//
+//                                InfoBlock generatedInfoBlock = new InfoBlock();
+//                                News generatedNews = new News();
+//
+//                                generatedInfoBlock.setHeader(article.getTitle());
+//                                generatedInfoBlock.setMain(content);
+//
+//                                infoBlockRepository.save(generatedInfoBlock);
+//
+//                                generatedNews.setInfoBlock(generatedInfoBlock);
+//                                generatedNews.setCustomer(contentMakers.get(getRandomNumber(0, contentMakers.size()-1)));
+//
+//                                newsRepository.save(generatedNews);
+//                                news.add(generatedNews);
+//                                counter++;
+//                            }
+//                        }
+//                    }
+//                    @Override
+//                    public void onFailure(Throwable throwable) {
+//                        throw new ResourceNotFoundException("NewAPI failed");
+//                    }
+//                }
+//        );
+//    }
 
     @Override
     public void generateFlights(Integer count){

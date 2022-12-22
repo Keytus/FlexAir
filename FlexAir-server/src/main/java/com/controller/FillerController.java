@@ -16,11 +16,11 @@ public class FillerController {
     @Autowired
     private FillerService fillerService;
 
-    @GetMapping("/news")
-    public ResponseEntity<Message> generateNews(@RequestParam String keyWord, @RequestParam Integer generateCount){
-        fillerService.generateNews(keyWord, generateCount);
-        return new ResponseEntity<>(new Message("success", null), HttpStatus.OK);
-    }
+//    @GetMapping("/news")
+//    public ResponseEntity<Message> generateNews(@RequestParam String keyWord, @RequestParam Integer generateCount){
+//        fillerService.generateNews(keyWord, generateCount);
+//        return new ResponseEntity<>(new Message("success", null), HttpStatus.OK);
+//    }
     @GetMapping("/flights")
     public ResponseEntity<Message> generateFlights(@RequestParam Integer generateCount){
         fillerService.generateFlights(generateCount);
