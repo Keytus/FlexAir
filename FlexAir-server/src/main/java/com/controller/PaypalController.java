@@ -12,8 +12,10 @@ import com.service.PaypalService;
 import com.service.PromocodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
@@ -106,16 +108,16 @@ public class PaypalController {
     }
 
     @GetMapping(value = FORTUNE_SUCCESS)
-    public ResponseEntity<Message> successFortunePay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId) {
+    public String successFortunePay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId) {
         try {
             Payment payment = paypalService.executePayment(paymentId, payerId);
             if (payment.getState().equals("approved")) {
                 paypalService.createFortunePromocode(payment.getTransactions().get(0).getDescription());
-                return new ResponseEntity<>(new Message("success", null), HttpStatus.OK);
+                return "success";
             }
         } catch (PayPalRESTException e) {
             System.out.println(e.getMessage());
         }
-        return new ResponseEntity<>(new Message("cancel", null), HttpStatus.SERVICE_UNAVAILABLE);
+        return "cancel";
     }
 }
